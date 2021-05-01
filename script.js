@@ -21,7 +21,7 @@ const createChart = async () => {
   let colors = ["blue", "green", "red"];
 
   return new Chart(myChart, {
-    type: "line", //bar, horizontal bar, pie, line, dougnut, radar, polar area
+    type: "line",
     data: {
       labels,
       datasets: countries.map((country, i) => {
@@ -34,6 +34,7 @@ const createChart = async () => {
       })
     },
     options: {
+      responsive: true,
       plugins: {
         title: {
           display: true,
@@ -47,6 +48,19 @@ const createChart = async () => {
           position: "top",
           labels: {
             color: "#000"
+          }
+        }
+      },
+      scales: {
+        y: {
+          min: 0,
+          max: 1400000000,
+          ticks: {
+            stepSize: 100000000,
+            // Include a dollar sign in the ticks
+            callback: function (value, index, values) {
+              return value;
+            }
           }
         }
       }
