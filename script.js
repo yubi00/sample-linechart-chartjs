@@ -15,7 +15,6 @@ const loadData = async () => {
 
 const createChart = async () => {
   const { labels, countries, populations } = await loadData();
-  console.log(labels, countries, populations);
 
   let myChart = document.getElementById("myChart").getContext("2d");
   let colors = ["blue", "green", "red"];
@@ -54,7 +53,7 @@ const createChart = async () => {
       scales: {
         y: {
           min: 0,
-          max: 1400000000,
+          max: 1600000000,
           ticks: {
             stepSize: 100000000,
             // Include a dollar sign in the ticks
@@ -73,19 +72,12 @@ const filterData = (data, property) => {
 };
 
 const getPopulationByCountry = (data, property) => {
-  let population = [];
   const res = data.reduce((acc, curr, i) => {
-    if (acc[curr[property]]) {
-      population.push(curr.Value);
-      acc[curr[property]] = population;
-
-      if (i < data.length - 1 && data[i + 1][property] !== curr[property]) {
-        //resset population for different country
-        population = [];
-      }
-    } else {
-      acc[curr[property]] = [...population, curr.Value];
+    if (!acc[curr[property]]) {
+      acc[curr[property]] = [];
     }
+
+    acc[curr[property]].push(curr.Value);
 
     return acc;
   }, {});
